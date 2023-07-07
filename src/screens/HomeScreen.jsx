@@ -2,12 +2,14 @@ import { Row, Col } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import Product from "../components/Product/product.jsx";
 import {useGetProductsQuery} from "../slices/productsApi.js";
+import Loader from "../components/Loader/Loader.jsx";
+import Message from "../components/Message/Message.jsx";
 
 const HomeScreen = () => {
     const{data: products, isLoading, error } = useGetProductsQuery()
     return (
         <>
-            {isLoading ? (<h2>Loading...</h2>) : error ? <div>{error?.data?.message || error.error}</div> : (<>
+            {isLoading ? <Loader/> : error ? <Message variant="danger">{error?.data?.message || error.error}</Message> : (<>
                     <h1>Latest Products</h1>
                 <Row>
             {products.map((product) =>(
