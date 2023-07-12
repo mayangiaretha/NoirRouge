@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { useDispatch} from "react-redux";
 import { Row, Col, Image, ListGroup, Card, Button,Form} from "react-bootstrap";
 import Ratings from "../components/Ratings/Ratings.jsx";
-import {useGetProductDetailsQuery} from "../slices/productsApi.js";
+import {useGetAProductByIdQuery} from "../slices/productsApi.js";
 import Loader from "../components/Loader/Loader.jsx";
 import Message from "../components/Message/Message.jsx";
 import {addToCart} from "../slices/cartSlice.js";
@@ -16,13 +16,12 @@ const ProductScreen = () => {
     const navigate = useNavigate()
     const [qty, setQty] = useState(1)
 
-    const { data: product, isLoading, error } = useGetProductDetailsQuery(productId)
+    const { data: product, isLoading, error } = useGetAProductByIdQuery(productId)
 
     const addToCartHandler = () =>{
      dispatch(addToCart({...product, qty}))
         navigate('/cart')
     }
-
 
     return (
         <>
@@ -32,7 +31,7 @@ const ProductScreen = () => {
             {isLoading ? <Loader/> : error ? <Message variant="danger">(error?.data?.message || error.error)</Message> : (
                 <Row>
                     <Col md={5}>
-                        <Image src={product.image} alt={product.name} fluid />
+                        <Image src={product.product.image} alt={product.product.name} fluid />
                     </Col>
                     <Col md={4}>
                         <ListGroup variant="flush">
